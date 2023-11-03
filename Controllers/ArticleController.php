@@ -6,20 +6,31 @@ use Mappers\ArticleMapper;
 
 class ArticleController {
     private $articleMapper;
-    private $view;
 
+    /**
+     * ArticleController constructor.
+     * @param $articleMapper
+     * @internal param $articleMapper
+     */
     public function __construct(ArticleMapper $articleMapper) {
         $this->articleMapper = $articleMapper;
     }
 
+    /**
+     * @return json string
+     */
     public function index() {
         $articles = $this->articleMapper->getArticles();
         header('Content-Type: application/json');
         return json_encode($articles);
     }
 
+    /**
+     * @param $id
+     * @return json string
+     */
     public function show($id) {
-        $article = $this->articleMapper->findById($id);
+        $article = $this->articleMapper->getArticleById($id);
         header('Content-Type: application/json');
         if ($article) {
             return json_encode($article);
@@ -29,6 +40,9 @@ class ArticleController {
         }
     }
 
+    /**
+     * @return json string
+     */
     public function create() {
         header('Content-Type: application/json');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,6 +64,10 @@ class ArticleController {
         }
     }
 
+    /**
+     * @param $id
+     * @return json string
+     */
     public function update($id) {
         header('Content-Type: application/json');
         $article = $this->articleMapper->getArticleById($id);
@@ -76,6 +94,10 @@ class ArticleController {
         }
     }
 
+    /**
+     * @param $id
+     * @return json string
+     */
     public function delete($id) {
         header('Content-Type: application/json');
         $article = $this->articleMapper->getArticleById($id);

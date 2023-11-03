@@ -9,43 +9,43 @@ class Article {
     private $updated_at;
 
     public function setId($id) {
-        $this->$id = $id;
+        $this->id = $id;
     }
 
     public function setTitle($title) {
-        $this->$title = $title;
+        $this->title = $title;
     }
 
     public function setContent($content) {
-        $this->$content = $content;
+        $this->content = $content;
     }
 
     public function setCreatedAt($created_at) {
-        $this->$created_at = $created_at;
+        $this->created_at = $created_at;
     }
 
     public function setUpdatedAt($updated_at) {
-        $this->$updated_at = $updated_at;
+        $this->updated_at = $updated_at;
     }
 
     public function getId() {
-        return $this->$id;
+        return $this->id;
     }
 
     public function getTitle() {
-        return $this->$title;
+        return $this->title;
     }
 
     public function getContent() {
-        return $this->$content;
+        return $this->content;
     }
 
     public function getCreatedAt() {
-        return $this->$created_at;
+        return $this->created_at;
     }
 
     public function getUpdatedAt() {
-        return $this->$updated_at;
+        return $this->updated_at;
     }
 
     public function isValid() {
