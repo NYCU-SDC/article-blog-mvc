@@ -11,6 +11,7 @@ use Controllers\ArticleController;
 $pdo = (new Database('localhost', 'kwei', 'kwei', 'kwei'))->getPdo();
 $articleMapper = new ArticleMapper($pdo);
 $articleController = new ArticleController($articleMapper);
+$postData = $_POST;
 
 function handleRequest($requestUri, $requestMethod, $articleController, $postData) {
     if ($requestMethod == 'GET' && $requestUri == '/') {
@@ -24,7 +25,7 @@ function handleRequest($requestUri, $requestMethod, $articleController, $postDat
         return $articleController->create($postData);
     } elseif ($requestMethod == 'POST' && preg_match('/^\/article\/(\d+)\/update$/', $requestUri, $matches)) {
         return $articleController->update($matches[1], $postData);
-    } elseif ($requestMethod == 'POST' && preg_match('/^\/article\/(\d+)\/delete$/', $requestUri, $matches)) {
+    } elseif ($requestMethod == 'DELETE' && preg_match('/^\/article\/(\d+)\/delete$/', $requestUri, $matches)) {
         return $articleController->delete($matches[1]);
     } else {
         // if there is no matching route, return 404

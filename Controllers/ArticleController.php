@@ -20,9 +20,13 @@ class ArticleController {
      * @return json string
      */
     public function index() {
+        $articlesArray = array();
         $articles = $this->articleMapper->getArticles();
         header('Content-Type: application/json');
-        return json_encode($articles);
+        foreach ($articles as $article) {
+            $articlesArray[] = $article->toArray();
+        }
+        return json_encode($articlesArray);
     }
 
     /**
@@ -33,7 +37,7 @@ class ArticleController {
         $article = $this->articleMapper->getArticleById($id);
         header('Content-Type: application/json');
         if ($article) {
-            return json_encode($article);
+            return $article->toJson();
         } else {
             http_response_code(404);
             return json_encode(["error" => "Article not found"]);
@@ -43,17 +47,17 @@ class ArticleController {
     /**
      * @return json string
      */
-    public function create() {
+    public function create($postData) {
         header('Content-Type: application/json');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article = new Article();
-            $article->setTitle($_POST['title']);
-            $article->setContent($_POST['content']);
+            $article->setTitle($postData['title']);
+            $article->setContent($postData['content']);
 
             if ($article->isValid()) {
                 $this->articleMapper->createArticle($article);
                 http_response_code(201); // Created
-                return json_encode($article);
+                return $article->toJson();
             } else {
                 http_response_code(400); // Bad request
                 return json_encode(["error" => "Please ensure both title and content are filled out."]);
@@ -68,7 +72,7 @@ class ArticleController {
      * @param $id
      * @return json string
      */
-    public function update($id) {
+    public function update($id, $postData) {
         header('Content-Type: application/json');
         $article = $this->articleMapper->getArticleById($id);
 
@@ -76,14 +80,13 @@ class ArticleController {
             http_response_code(404); // Not found
             return json_encode(["error" => "Article not found"]);
         }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $article->setTitle($_POST['title']);
-            $article->setContent($_POST['content']);
+            $article->setTitle($postData['title']);
+            $article->setContent($postData['content']);
 
             if ($article->isValid()) {
                 $this->articleMapper->updateArticle($article);
-                return json_encode($article);
+                return $article->toJson();
             } else {
                 http_response_code(400); // Bad request
                 return json_encode(["error" => "Please ensure both title and content are filled out."]);
@@ -107,7 +110,7 @@ class ArticleController {
             return json_encode(["error" => "Article not found"]);
         }
 
-        $this->articleMapper->deleteArticle($article);
+        $this->articleMapper->deleteArticle($id);
         http_response_code(204); // No content
         return json_encode(["message" => "Article deleted successfully"]);
     }

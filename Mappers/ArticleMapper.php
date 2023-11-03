@@ -23,7 +23,7 @@ class ArticleMapper {
 
     /**
      * @param $id
-     * @return array|null
+     * @return Article|null
      */
     public function getArticleById($id) {
         $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = :id');
@@ -36,7 +36,7 @@ class ArticleMapper {
             $article->setContent($articleFetch['content']);
             $article->setCreatedAt($articleFetch['created_at']);
             $article->setUpdatedAt($articleFetch['updated_at']);
-            return $article->toArray();
+            return $article;
         }
         return null;
     }
@@ -56,7 +56,7 @@ class ArticleMapper {
             $article->setContent($articleFetch['content']);
             $article->setCreatedAt($articleFetch['created_at']);
             $article->setUpdatedAt($articleFetch['updated_at']);
-            $articles[] = $article->toArray();
+            $articles[] = $article;
         }
         return $articles;
     }

@@ -61,4 +61,8 @@ class Article {
             'updated_at' => $this->updated_at
         ];
     }
+
+    public function toJson() {
+        return json_encode($this->toArray());
+    }
 }
