@@ -1,4 +1,9 @@
 # NYCU SDC article-blog with MVC
+
+> This is a learning example code that makes students learn what MVC architecture is.
+
+> The previous version without the design pattern is [here](https://github.com/NYCU-SDC/article-blog).
+
 ## Structure
 
 ```
