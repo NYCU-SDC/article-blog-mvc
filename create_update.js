@@ -1,21 +1,19 @@
 // Check if the "update" and "create" query parameter is present in the URL
-// [Practice]-4: Extract query parameters in URL
 const urlParams = new URLSearchParams(window.location.search);
 const isCreate = urlParams.has('create');
 const isUpdate = urlParams.has('update');
 
+console.log(isCreate);
+console.log(isUpdate);
+
 // If it's an update, fetch and populate existing article data into the form fields
 if (isUpdate) {
-    // [Practice]-5: fetch "read_article.php" with specific id
     const articleId = urlParams.get('id');
-    fetch('read_article.php?id='+articleId)
+    fetch('https://4.216.116.11/article/' + articleId)
     .then(response => response.json())
     .then(data => {
-        data.forEach(item => {
-            // Populate form fields with existing article data
-            document.getElementById('title').value = item.title;
-            document.getElementById('content').value = item.content;
-        });
+        document.getElementById('title').value = data.title;
+        document.getElementById('content').value = data.content;
     })
     .catch(error => {
         console.error('Error:', error);
@@ -23,37 +21,52 @@ if (isUpdate) {
 }
 
 // Function to handle form submission
-function handleClick() {
-    // Get the form data using FormData
-    const formData = new FormData(document.getElementById("article_form"));
+function handleClick(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('article_form');
+    const formData = new FormData(form);
     const title = formData.get('title');
     const content = formData.get('content');
     const articleId = urlParams.get('id');
     
-    if (isCreate) {
-        fetch(`create.php?title=${title}&content=${content}`)
-        .then(response => response.json())
-        .then(data => {
-            // Print "successful" in console
-            console.log(data);
-            // Redirect the user to article_list page
-            window.location.href = `article_list.html`;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    if (!form.checkValidity()) {
+        event.stopPropagation();
+    } else {
+        if (isCreate) {
+            fetch(`https://4.216.116.11/article/create`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.href = `article_list.html`;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        } else if (isUpdate) {      
+            fetch(`https://4.216.116.11/article/${articleId}/update`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.href = `article_list.html`;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
     }
-    else if(isUpdate) {      
-        fetch(`update.php?id=${articleId}&title=${title}&content=${content}`)
-        .then(response => response.json())
-        .then(data => {
-            // Print "successful" in console
-            console.log(data);
-            // Redirect the user to article_list page
-            window.location.href = `article_list.html`;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-    }
+    
+    form.classList.add('was-validated');
 }
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('article_form');
+    form.addEventListener('submit', handleClick, false);
+});

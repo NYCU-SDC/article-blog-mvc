@@ -25,7 +25,6 @@ fetch('https://4.216.116.11/article/'+articleId)
         '<a href="edit_article.html?update&id=' + articleId + 
         '" class="btn btn-light border border-1" style="background-color: #f2f2f2;">Update</a>';
         document.getElementById('button-container').appendChild(div2);
-        
     })
     .catch(error => {
         console.error('Error:', error); // Handle errors
