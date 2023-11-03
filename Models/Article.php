@@ -51,4 +51,14 @@ class Article {
     public function isValid() {
         return !empty($this->title) && !empty($this->content);
     }
+
+    public function toArray() {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
+        ];
+    }
 }

@@ -1,5 +1,5 @@
 // Use the "fetch()" API to send a request
-fetch('read_article_list.php')
+fetch("https://4.216.116.11/article")
     .then(response => response.json()) // Parse JSON data
     .then(data => {
         // Iterate through JSON data and display it on the web page

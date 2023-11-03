@@ -23,26 +23,42 @@ class ArticleMapper {
 
     /**
      * @param $id
-     * @return null|json string
+     * @return array|null
      */
     public function getArticleById($id) {
         $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = :id');
         $stmt->execute(['id' => $id]);
-        $article = $stmt->fetch();
+        $articleFetch = $stmt->fetch();
         if($article) {
-            return json_encode($article);
+            $article = new Article();
+            $article->setId($articleFetch['id']);
+            $article->setTitle($articleFetch['title']);
+            $article->setContent($articleFetch['content']);
+            $article->setCreatedAt($articleFetch['created_at']);
+            $article->setUpdatedAt($articleFetch['updated_at']);
+            return $article->toArray();
         }
         return null;
     }
     
     /**
-     * @return json string
+     * @return array
      */
     public function getArticles() {
+        $articles = array();
         $stmt = $this->pdo->prepare('SELECT * FROM articles');
         $stmt->execute();
-        $articles = $stmt->fetchAll();
-        return json_encode($articles);
+        $articlesFetch = $stmt->fetchAll();
+        foreach ($articlesFetch as $articleFetch) {
+            $article = new Article();
+            $article->setId($articleFetch['id']);
+            $article->setTitle($articleFetch['title']);
+            $article->setContent($articleFetch['content']);
+            $article->setCreatedAt($articleFetch['created_at']);
+            $article->setUpdatedAt($articleFetch['updated_at']);
+            $articles[] = $article->toArray();
+        }
+        return $articles;
     }
 
     /**
