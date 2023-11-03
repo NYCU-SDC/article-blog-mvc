@@ -1,4 +1,4 @@
-# NYCU SDC article_blog with MVC
+# NYCU SDC article-blog with MVC
 ## Structure
 
 ```
