@@ -1,7 +1,6 @@
 <?php
 require_once 'Mappers/Database.php';
 require_once 'Mappers/ArticleMapper.php';
-require_once 'Controllers/View.php';
 require_once 'Controllers/ArticleController.php';
 
 use Mappers\ArticleMapper;
@@ -9,23 +8,22 @@ use Mappers\Database;
 use Controllers\View;
 use Controllers\ArticleController;
 
+// Inintialize the database connection
 $pdo = (new Database('localhost', 'kwei', 'kwei', 'kwei'))->getPdo();
 $articleMapper = new ArticleMapper($pdo);
-$view = new View();
-$articleController = new ArticleController($articleMapper, $view);
+$articleController = new ArticleController($articleMapper);
 
-$requestUri = $_SERVER['REQUEST_URI'];
-$requestMethod = $_SERVER['REQUEST_METHOD'];
+function handleRequest($requestUri, $requestMethod, $articleController) {
+    if ($requestMethod == 'GET' && $requestUri == '/') {
+        return $articleController->index();
+    } else if ($requestMethod == 'GET' && preg_match('/^\/article\/(\d+)$/', $requestUri, $matches)) {
+        return $articleController->show($matches[1]);
+    }
+    // Other routes with "else if"
 
-$response = '';
-
-if ($requestMethod == 'GET' && $requestUri == '/article_list') {
-    $response = $articleController->index();
+    // if there is no matching route, return 404
+    http_response_code(404);
+    return json_encode(["error" => "Page not found"]);
 }
 
-if ($requestMethod == 'GET' && preg_match('/^\/article\/(\d+)$/', $requestUri, $matches)) {
-    $response = $articleController->show($matches[1]);
-}
-
-echo $response;
 ?>
