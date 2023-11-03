@@ -29,7 +29,7 @@ class ArticleMapper {
         $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = :id');
         $stmt->execute(['id' => $id]);
         $articleFetch = $stmt->fetch();
-        if($article) {
+        if($articleFetch) {
             $article = new Article();
             $article->setId($articleFetch['id']);
             $article->setTitle($articleFetch['title']);
