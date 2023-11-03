@@ -6,8 +6,6 @@ const articleId = urlParams.get('id');
 fetch('https://4.216.116.11/article/'+articleId)
     .then(response => response.json()) // Parse JSON data
     .then(data => {
-        console.log(data); // 印出接收到的數據
-        
         // Create a new HTML element
         var div = document.createElement('div');
         div.classList.add("border", "border-1", "rounded-3", "p-3", "shadow", "bg-body", "rounded");
