@@ -4,7 +4,7 @@ namespace Controllers;
 use Models\ArticleManipulator;
 
 class ArticleController {
-    private $articleManipulatorarticleManipulator;
+    private $articleManipulator;
 
     /**
      * ArticleController constructor.
@@ -31,7 +31,7 @@ class ArticleController {
     public function show($id) {
         $article = $this->articleManipulator->whereId($id);
         header('Content-Type: application/json');
-        if ($article) {
+        if ($article->articleDataValid()) {
             return json_encode($article->toArray());
         } else {
             http_response_code(404);
