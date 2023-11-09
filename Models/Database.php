@@ -1,5 +1,5 @@
 <?php
-namespace Mappers;
+namespace Models;
 
 use PDO;
 use PDOException;
@@ -22,3 +22,4 @@ class Database {
         return $this->pdo;
     }
 }
+?>

@@ -1,16 +1,15 @@
 <?php
-require_once 'Mappers/Database.php';
-require_once 'Mappers/ArticleMapper.php';
+require_once 'Models/Database.php';
+require_once 'Models/ArticleManipulator.php';
 require_once 'Controllers/ArticleController.php';
 
-use Mappers\ArticleMapper;
-use Mappers\Database;
+use Models\Database;
+use Models\ArticleManipulator;
 use Controllers\ArticleController;
 
 // Inintialize the database connection
 $pdo = (new Database('localhost', 'kwei', 'kwei', 'kwei'))->getPdo();
-$articleMapper = new ArticleMapper($pdo);
-$articleController = new ArticleController($articleMapper);
+$articleController = new ArticleController(new ArticleManipulator($pdo));
 $postData = $_POST;
 
 function handleRequest($requestUri, $requestMethod, $articleController, $postData) {

@@ -1,7 +1,10 @@
 <?php
 namespace Models;
 
-class Article {
+class ArticleData {
+    /**
+     * Member variables
+     */
     private $id;
     private $title;
     private $content;
@@ -86,22 +89,5 @@ class Article {
 
     public function getUpdatedAt() {
         return $this->updated_at;
-    }
-
-    public function isValid() {
-        return !empty($this->title) && !empty($this->content);
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray() {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
-        ];
     }
 }
