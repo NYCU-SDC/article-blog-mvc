@@ -30,12 +30,12 @@ class ArticleMapper {
         $stmt->execute(['id' => $id]);
         $articleFetch = $stmt->fetch();
         if($articleFetch) {
-            $article = new Article();
-            $article->setId($articleFetch['id']);
-            $article->setTitle($articleFetch['title']);
-            $article->setContent($articleFetch['content']);
-            $article->setCreatedAt($articleFetch['created_at']);
-            $article->setUpdatedAt($articleFetch['updated_at']);
+            $article = Article::create()
+                        ->setId($articleFetch['id'])
+                        ->setTitle($articleFetch['title'])
+                        ->setContent($articleFetch['content'])
+                        ->setCreatedAt($articleFetch['created_at'])
+                        ->setUpdatedAt($articleFetch['updated_at']);
             return $article;
         }
         return null;
@@ -50,12 +50,12 @@ class ArticleMapper {
         $stmt->execute();
         $articlesFetch = $stmt->fetchAll();
         foreach ($articlesFetch as $articleFetch) {
-            $article = new Article();
-            $article->setId($articleFetch['id']);
-            $article->setTitle($articleFetch['title']);
-            $article->setContent($articleFetch['content']);
-            $article->setCreatedAt($articleFetch['created_at']);
-            $article->setUpdatedAt($articleFetch['updated_at']);
+            $article = Article::create()
+                        ->setId($articleFetch['id'])
+                        ->setTitle($articleFetch['title'])
+                        ->setContent($articleFetch['content'])
+                        ->setCreatedAt($articleFetch['created_at'])
+                        ->setUpdatedAt($articleFetch['updated_at']);
             $articles[] = $article;
         }
         return $articles;
