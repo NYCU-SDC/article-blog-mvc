@@ -56,7 +56,7 @@ class ArticleManipulator {
 
     /**
      * @param $id
-     * @return Article|null
+     * @return ArticleManipulator
      */
     public function whereId($id) {
         $stmt = $this->pdo->prepare('SELECT * FROM articles WHERE id = :id');
@@ -76,7 +76,8 @@ class ArticleManipulator {
     }
 
     /**
-     * @param Article $article
+     * @param $articleArray
+     * @return ArticleManipulator
      */
     public function createArticle($articleArray) {
         $this->articleData = ArticleData::create()
@@ -92,7 +93,8 @@ class ArticleManipulator {
     }
 
     /**
-     * @param Article $article
+     * @param $articleArray
+     * @return ArticleManipulator
      */
     public function updateArticle($articleArray) {
         $this->articleData = ArticleData::create()
@@ -147,6 +149,10 @@ class ArticleManipulator {
         ];
     }
 
+    /**
+     * @param $articleArray
+     * @return bool
+     */
     public function validate($articleArray) {
         if (empty($articleArray['title'])) {
             return false;
@@ -157,6 +163,9 @@ class ArticleManipulator {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function articleDataValid() {
         if(empty($this->articleData)) {
             return false;
