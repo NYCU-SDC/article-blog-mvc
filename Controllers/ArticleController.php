@@ -37,7 +37,7 @@ class ArticleController {
         $article = $this->articleMapper->getArticleById($id);
         header('Content-Type: application/json');
         if ($article) {
-            return $article->toJson();
+            return json_encode($article->toArray());
         } else {
             http_response_code(404);
             return json_encode(["error" => "Article not found"]);
@@ -57,7 +57,7 @@ class ArticleController {
             if ($article->isValid()) {
                 $this->articleMapper->createArticle($article);
                 http_response_code(201); // Created
-                return $article->toJson();
+                return json_encode($article->toArray());
             } else {
                 http_response_code(400); // Bad request
                 return json_encode(["error" => "Please ensure both title and content are filled out."]);
@@ -86,7 +86,7 @@ class ArticleController {
 
             if ($article->isValid()) {
                 $this->articleMapper->updateArticle($article);
-                return $article->toJson();
+                return json_encode($article->toArray());
             } else {
                 http_response_code(400); // Bad request
                 return json_encode(["error" => "Please ensure both title and content are filled out."]);
