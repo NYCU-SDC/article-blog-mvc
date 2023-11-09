@@ -10,19 +10,23 @@
 .
 ├── Controllers
 │   └── ArticleController.php
-├── Mappers
-│   ├── ArticleMapper.php
-│   └── Database.php
 ├── Models
-│   └── Article.php
-├── Others
-│   ├── article.html
-│   ├── article.js
-│   ├── article_list.html
-│   ├── article_list.js
-│   ├── create_update.js
-│   ├── delete.js
-│   └── edit_article.html
+│   ├── ArticleData.php
+│   ├── ArticleManipulator.php
+│   └── Database.php
 ├── README.md
+├── article.html
+├── article.js
+├── article_list.html
+├── article_list.js
+├── create_update.js
+├── delete.js
+├── edit_article.html
+├── index.php
 ├── route.php
+└── test
+    ├── log.out
+    └── tree.out
+
+3 directories, 16 files
 ```
