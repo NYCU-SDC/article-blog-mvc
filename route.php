@@ -9,7 +9,7 @@ use Controllers\ArticleController;
 
 // Initialize the database connection
 $pdo = (new Database('localhost', 'kwei', 'kwei', 'kwei'))->getPdo();
-$articleController = new ArticleController(new ArticleManipulator($pdo));
+$articleController = new ArticleController(ArticleManipulator::create($pdo));
 $postData = $_POST;
 
 function handleRequest($requestUri, $requestMethod, $articleController, $postData) {
@@ -20,11 +20,11 @@ function handleRequest($requestUri, $requestMethod, $articleController, $postDat
         return $articleController->index();
     } else if ($requestMethod == 'GET' && preg_match('/^\/article\/(\d+)$/', $requestUri, $matches)) {
         return $articleController->show($matches[1]);
-    } elseif ($requestMethod == 'POST' && $requestUri == '/article/create') {
+    } else if ($requestMethod == 'POST' && $requestUri == '/article/create') {
         return $articleController->create($postData);
-    } elseif ($requestMethod == 'POST' && preg_match('/^\/article\/(\d+)\/update$/', $requestUri, $matches)) {
+    } else if ($requestMethod == 'POST' && preg_match('/^\/article\/(\d+)\/update$/', $requestUri, $matches)) {
         return $articleController->update($matches[1], $postData);
-    } elseif ($requestMethod == 'DELETE' && preg_match('/^\/article\/(\d+)\/delete$/', $requestUri, $matches)) {
+    } else if ($requestMethod == 'DELETE' && preg_match('/^\/article\/(\d+)\/delete$/', $requestUri, $matches)) {
         return $articleController->delete($matches[1]);
     } else {
         // if there is no matching route, return 404
