@@ -7,7 +7,7 @@ use Models\Database;
 use Models\ArticleManipulator;
 use Controllers\ArticleController;
 
-// Inintialize the database connection
+// Initialize the database connection
 $pdo = (new Database('localhost', 'kwei', 'kwei', 'kwei'))->getPdo();
 $articleController = new ArticleController(new ArticleManipulator($pdo));
 $postData = $_POST;
